@@ -1,0 +1,244 @@
+<DOCTYPE! html>
+<html>
+    <head>
+        <title>Random Quote Generator</title>
+        <style>
+            .container {
+                max-width: 85%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .container:after {
+                content: " ";
+                display: block;
+                clear: both;
+            }
+
+            @media  screen and (min-width: 480px) {
+                .container {
+                    max-width: 90%;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+                .container:after {
+                    content: " ";
+                    display: block;
+                    clear: both;
+                }
+            }
+
+            body{
+                background-color: #ee4c83;
+                color: #FFFFFF;
+                font-family: 'Lato', sans-serif;
+                line-height: 1.2;
+            }
+
+            a{
+                color: #F8BBD0;
+                font-weight: 700;
+                text-decoration: none;
+                text-transform: uppercase;
+                transition: color 0.1s ease;
+            }
+
+            a:hover, a:focus {
+                color: #c2185B;
+                text-decoration: underline;
+            }
+
+            .quote-container {
+                width: 100%;
+                margin: 0 auto 23.72881%;
+                padding: 6.77966% 0;
+            }
+
+            @media screen and (min-width: 110px){
+                .quote-container {
+                    width: 66.10169%;
+                    padding: 6.77966%;
+                }
+            }
+
+            .quote-container blockquote {
+                margin-bottom: 6.77966%;
+                font-family: 'Neuton', serif;
+                line-height: 1.3;
+            }
+
+            .quote-container .quote-text, .quote-container .quote-author{
+                font-size: 200%;
+                font-weight: 700;
+                letter-spacing: 0.025em;
+                text-shadow: -1px 0 3px #c2185b;
+            }
+
+            @media screen and (min-width: 480px){
+                .quote-container .quote-text, .quote-container .quote-author{
+                    font-size: 250%;
+                }
+            }
+
+            .quote-container .quote-author{
+                text-align: right;
+                font-size: 125%;
+            }
+
+            @media screen and (min-width: 480px){
+                .quote-container .quote-author {
+                    font-size: 175%;
+                }
+            }
+
+            .button-container {
+                display: block;
+                text-align: center;
+                margin-top: 15.25424%;
+            }
+
+            .button {
+                padding: 1em;
+                width: 49.15254%;
+                border: none;
+                border-radius: 0.5em;
+                background-color: #c2185B;
+                font-size: 130%;
+                transition: all 0.2s ease-in-out;
+            }
+
+            .button:hover, .button:focus{
+                background-color: #951246;
+                color: #F8BBD0;
+            }
+
+            .twitter-share-button {
+                display: block;
+                margin: 1em auto;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <main>
+                <div class="quote-container">
+                    <blockquote>
+                        <p class="quote-text" id="quote">
+                            Click the button below to generate random quote
+                        </p>
+                        <p id="quote-author" class="quote-author"></p>
+                    </blockquote>
+                    <span class="button-container">
+                        <button class="button button_quote" id="quote-button">Get a new quote</button>
+                        <a href="#" class="twitter-share-button" id="tweet" data-size="large">Tweet</a>
+                    </span>
+                </div>
+            </main>
+        </div>
+        <script>
+            var quoteArray = [
+                {
+                    content: "Graphic design is building systems",
+                    author: "Michael Stinson"
+                },
+                {
+                    content: "I rarely agree with what clients ask me to do.",
+                    author: "Ross Lovegrove"
+                },
+                {
+                    content: "I think most programmers spend the first 5 years of their career mastering complexity, and the rest of their lives learning simplicity.",
+                    author: "Buzz Andersen"
+                },
+                {
+                    content: "Make it simple. Make it memorable. Make it inviting to look at. Make it fun to read.",
+                    author: "Leo Burnett"
+                },
+                {
+                    content: "What makes a great design great is not a trendy technique, but the logic and conceptual aspect that were figured out in the designer's mind &ndash; or on more likely, on paper &ndash; before a mouse cursor ever opened Photoshop.",
+                    author: "Kyle Meyer"
+                },
+                {
+                    content: "Designers tend to whisper, ad agencies tend to shout.",
+                    author: " David Stuart"
+                },
+                {
+                    content: "Design is the method of putting form and content together. Design, just as art, has multiple definitions; there is no single definition. Design can be art. Design can be aesthetics. Design is so simple, that's why it is so complicated.",
+                    author: "Paul Rand"
+                },
+                {
+                    content: "Tell it like it is, in a way they want to hear it.",
+                    author: "Wihan Meerholz"
+                },
+                {
+                    content: "The best way to find any and all errors is to publish your work.",
+                    author: "Dan Vore"
+                },
+                {
+                    content: "Creativity is piercing the mundane to find the marvelous.",
+                    author: "Bill Moyers"
+                },
+                {
+                    content: "I warn you against believing that advertising is a science.",
+                    author: "Bill Bernbach"
+                }
+            ];
+
+            let button = document.getElementById('quote-button'), 
+                quote =document.getElementById('quote'),
+                author = document.getElementById('quote-author'),
+                tweet = document.getElementById('tweet'), random;
+            window.onload = randomQuote;
+            button.addEventListener('click', randomQuote);
+            
+            tweetQuote();
+
+            function randomQuote() {
+                random = Math.floor(Math.random()*quoteArray.length);
+                quote.innerHTML = quoteArray[random].content;
+                author.innerHTML = '&mdash; ' + quoteArray[random].author;
+                tweetQuote();
+            }
+
+            function tweetQuote() {
+                let quoteShort = quote.innerHTML, 
+                    quoteShortAuthor = author.innerHTML.substr(2).trim(),
+                    msg = '';
+                
+                let elem = document.getElementById('twitterbutton');
+
+                if (elem !== null) {
+                    elem.parentNode.removeChild(elem);
+                }
+
+                if (quoteShort.length + quoteShortAuthor.length <= 90){
+                    msg = '"' +quoteShort + '" by ' + quoteShortAuthor;
+                } else {
+                    msg = '"'+ quoteShort.substr(0, 65) + '[...]" by ' + quoteShortAuthor;
+                }
+
+                let tweetDiv = document.querySelector('.twitter-share-button');
+                let link = document.createElement('a');
+                link.setAttribute('href', 'https://twitter.com/share');
+                link.setAttribute('class', 'twitter-share-button');
+                link.setAttribute('id', 'tweet');
+                link.setAttribute('data-text', msg);
+                link.setAttribute('data-via', 'littleblacksmth');
+                link.setAttribute('data-size', 'large');
+
+                tweetDiv.parentNode.replaceChild(link, tweetDiv);
+                twttr.widgets.load();
+            }
+
+            ! function(d, s, id){
+                let js, fjs = d.getElementByTagName(s)[0],
+                    p = /^https:/.test(d.location)? 'http' : 'https';
+                    if (!d.getElementById(id)){
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = p + '://platform.twitter.com/widget.js';
+                        fjs.parentNode.insertBefore(js, fjs);}
+            }(document, 'script', 'twitter-wjs');
+        </script>
+    </body>
+</html>
